@@ -1,0 +1,7 @@
+{
+  "require": {
+    "vitessecms/vitessecms": "~0.1.9",
+    "vitessecms/import": "~0.0.9",
+    "vitessecms/shop": "~0.0.8"
+  }
+}
