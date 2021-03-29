@@ -2,3 +2,6 @@
 data*
 vendor*
 cache*
+public_html*
+config*
+backup*

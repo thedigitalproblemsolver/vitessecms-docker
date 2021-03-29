@@ -8,7 +8,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./:/var/www:rw
+      - ./config:/var/www/config:rw
+      - ./public_html:/var/www/public_html:rw
     networks:
       public_net:
         ipv4_address: 192.167.0.33
@@ -65,6 +66,5 @@ networks:
   public_net:
     driver: bridge
     ipam:
-      driver: core
       config:
         - subnet: 192.167.0.0/24

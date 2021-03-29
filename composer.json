@@ -1,7 +1,28 @@
 {
+  "name": "vitessecms/docker",
+  "type": "project",
+  "description": "ViteseCms running in docker",
+  "keywords": [
+    "php",
+    "phalcon"
+  ],
+  "homepage": "https://github.com/thedigitalproblemsolver/VitesseCMS",
+  "license": "GPL-2.0-or-later",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Jasper Jaklofsky",
+      "email": "info@thedigitalproblemsolver.com"
+    }
+  ],
   "require": {
-    "vitessecms/vitessecms": "~0.1.9",
-    "vitessecms/import": "~0.0.9",
-    "vitessecms/shop": "~0.0.8"
+    "vitessecms/vitessecms": "~0.1.10"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "php vendor/vitessecms/cli/src/run.php install finish example.com example",
+      "php vendor/vitessecms/cli/src/run.php domain create example.com example",
+      "php vendor/vitessecms/cli/src/run.php deploy assets example.com example"
+    ]
   }
 }

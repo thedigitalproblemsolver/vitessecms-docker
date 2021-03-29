@@ -52,4 +52,8 @@ RUN cd /opt/; git clone --branch v3.4.5 --depth 1 https://github.com/phalcon/cph
 
 RUN docker-php-ext-enable phalcon
 
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
+RUN php composer-setup.php
+RUN php composer.phar install
+
 #COPY www.conf /usr/local/etc/php-fpm.d/www.conf
