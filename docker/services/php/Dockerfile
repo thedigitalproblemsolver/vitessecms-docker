@@ -3,6 +3,7 @@
 FROM php:7.3-apache
 
 ENV APACHE_DOCUMENT_ROOT /var/www/public_html
+WORKDIR /var/www
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
@@ -24,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     libssh2-1-dev \
     libpng-dev \
     libzip-dev \
+    sudo \
     --no-install-recommends \
     && docker-php-ext-install -j$(nproc) pdo_mysql mbstring soap zip gd intl \
     && cp /usr/local/bin/php /usr/bin/
@@ -52,8 +54,14 @@ RUN cd /opt/; git clone --branch v3.4.5 --depth 1 https://github.com/phalcon/cph
 
 RUN docker-php-ext-enable phalcon
 
-RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
-RUN php composer-setup.php
-RUN php composer.phar install
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY composer.json ./
+RUN composer install
+COPY . ./
 
-#COPY www.conf /usr/local/etc/php-fpm.d/www.conf
+RUN php vendor/vitessecms/cli/src/run.php install finish example.com example
+RUN php vendor/vitessecms/cli/src/run.php domain create example.com example
+RUN chown www-data:www-data public_html/assets -R
+RUN php vendor/vitessecms/cli/src/run.php deploy assets example.com example
+RUN chown www-data:www-data cache

@@ -3,5 +3,6 @@ data*
 vendor*
 cache*
 public_html*
+html*
 config*
 backup*
