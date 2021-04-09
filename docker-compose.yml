@@ -10,6 +10,7 @@ services:
     volumes:
       - ./config:/var/www/config:rw
       - ./public_html:/var/www/public_html:rw
+      - ./vendor:/var/www/vendor:rw # for debugging purposes
     networks:
       public_net:
         ipv4_address: 192.167.0.33
