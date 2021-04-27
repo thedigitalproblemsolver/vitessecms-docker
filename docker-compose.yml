@@ -5,6 +5,7 @@ services:
     build:
       context: docker/services/php
     container_name: "vitessecms"
+    env_file: .env
     ports:
       - 80:80
     volumes:
