@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+  php:
+    build:
+      context: docker/services/php
+    container_name: "vitessecms"
+    env_file: .env
+    ports:
+      - 80:80
+    volumes:
+      - ./config:/var/www/config:rw
+      - ./public_html:/var/www/public_html:rw
+      - ./vendor:/var/www/vendor:rw # for debugging purposes
+    networks:
+      public_net:
+        ipv4_address: 192.167.0.33
+    restart: always
+    links:
+      - mongodb
+      - beanstalkd
+    depends_on:
+      - mongodb
+      - beanstalkd
+  mongodb:
+    image: mongo:3.4.19
+    container_name: "mongodb"
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./data/db:/data/db
+      - ./backup:/backup
+    ports:
+      - 27017:27017
+    networks:
+      public_net:
+        ipv4_address: 192.167.0.22
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    restart: always
+  beanstalkd:
+    image: schickling/beanstalkd:latest
+    container_name: "beanstalkd"
+    restart: always
+    volumes:
+      - ./data/beanstalkd:/data/beanstalkd
+    ports:
+      - 11300:11300
+    networks:
+      public_net:
+        ipv4_address: 192.167.0.44
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    container_name: "elasticsearch"
+    restart: always
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    volumes:
+      - ./data/elasticsearch:/data/elasticsearch
+    ports:
+      - 9200:9200
+    networks:
+      public_net:
+        ipv4_address: 192.167.0.55
+
+networks:
+  public_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.167.0.0/24

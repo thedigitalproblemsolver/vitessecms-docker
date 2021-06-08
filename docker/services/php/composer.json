@@ -1,0 +1,21 @@
+{
+  "name": "vitessecms/docker",
+  "type": "project",
+  "description": "ViteseCms running in docker",
+  "keywords": [
+    "php",
+    "phalcon"
+  ],
+  "homepage": "https://github.com/thedigitalproblemsolver/VitesseCMS",
+  "license": "GPL-2.0-or-later",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Jasper Jaklofsky",
+      "email": "info@thedigitalproblemsolver.com"
+    }
+  ],
+  "require": {
+    "vitessecms/vitessecms": "~0.1.10"
+  }
+}
