@@ -25,7 +25,6 @@ RUN apt-get update && apt-get install -y \
     libssh2-1-dev \
     libpng-dev \
     libzip-dev \
-    sudo \
     --no-install-recommends \
     && docker-php-ext-install -j$(nproc) pdo_mysql mbstring soap zip gd intl \
     && cp /usr/local/bin/php /usr/bin/
@@ -38,11 +37,11 @@ RUN printf "\n" | pecl install imagick
 RUN docker-php-ext-enable imagick
 
 # Install ssh2 php extension
-RUN cd /tmp \
-    && git clone https://git.php.net/repository/pecl/networking/ssh2.git \
-    && cd /tmp/ssh2/ \
-    && .travis/build.sh \
-    && docker-php-ext-enable ssh2
+#RUN cd /tmp \
+#    && git clone https://git.php.net/repository/pecl/networking/ssh2.git \
+#    && cd /tmp/ssh2/ \
+#    && .travis/build.sh \
+#    && docker-php-ext-enable ssh2
 
 # Install PECL extensions
 RUN pecl install xdebug && pecl install mcrypt-1.0.2 && pecl install psr && pecl install mongodb
