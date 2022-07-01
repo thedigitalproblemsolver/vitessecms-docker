@@ -56,6 +56,7 @@ RUN docker-php-ext-enable phalcon
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY composer.json ./
+COPY .env ./
 RUN composer install
 COPY . ./
 
