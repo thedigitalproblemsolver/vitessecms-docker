@@ -44,7 +44,7 @@ RUN docker-php-ext-enable imagick
 #    && docker-php-ext-enable ssh2
 
 # Install PECL extensions
-RUN pecl install xdebug && pecl install mcrypt-1.0.2 && pecl install psr && pecl install mongodb
+RUN pecl install xdebug && pecl install mcrypt-1.0.2 && pecl install psr && pecl install mongodb-1.9.1
 RUN docker-php-ext-enable xdebug mcrypt psr mongodb intl
 RUN echo "extension=psr.so" > /usr/local/lib/php/php.ini
 RUN echo "extension=mongodb.so" > /usr/local/lib/php/php.ini
